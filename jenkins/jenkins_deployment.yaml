@@ -40,5 +40,5 @@ spec:
       - name: sonarqube
         image: sonarqube
         ports:
-        - containerPort: 8080
+        - containerPort: 9000
 
