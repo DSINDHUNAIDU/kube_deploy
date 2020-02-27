@@ -10,3 +10,17 @@ spec:
       nodePort: 30000
   selector:
     app: jenkins
+    
+    
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarqube
+spec:
+  type: NodePort
+  ports:
+    - port: 9000
+      targetPort: 9000
+      nodePort: 30022
+  selector:
+app: sonarqube
