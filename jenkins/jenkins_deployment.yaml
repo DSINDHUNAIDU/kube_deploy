@@ -17,5 +17,5 @@ spec:
       - name: jenkins
         image: jenkins/jenkins:latest
         ports:
-        - containerPort: 8089
+        - containerPort: 8080
 
