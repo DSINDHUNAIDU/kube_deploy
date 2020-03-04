@@ -53,7 +53,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /var/lib/docker/volumes/jenkins_volume/_data
+    path: /var/lib/docker/volumes/
   nodeAffinity:
     required:
       nodeSelectorTerms:
