@@ -25,7 +25,8 @@ spec:
             mountPath: /var/jenkins_home
       volumes:
         - name: jenkins-pv
-          emptyDir: {}
+            persistentVolumeClaim:
+            claimName:  jenkins-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -47,21 +48,23 @@ metadata:
 spec:
   capacity:
     storage: 8Gi
-  volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /var/lib/docker/volumes/
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - example-node
+    path: /home/ubuntu/Desktop/jenkins
+---  
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+   name: jenkins-pvc
+spec:
+   accessModes:
+      - ReadWriteOnce
+   resources:
+      requests:
+         storage: 4Gi 
 ---
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
