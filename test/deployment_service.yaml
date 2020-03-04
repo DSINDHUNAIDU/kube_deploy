@@ -5,15 +5,15 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: jenkins
+      app: jenkins-deployment
   replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: jenkins
+        app: jenkins-deployment
     spec:
       containers:
-      - name: jenkins
+      - name: jenkins-deployment
         image: jenkins/jenkins:latest
         env:
             - name: JAVA_OPTS
@@ -24,7 +24,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: jenkins
+  name: jenkins-deployment
 spec:
   type: NodePort
   ports:
@@ -32,7 +32,7 @@ spec:
       targetPort: 8080
       nodePort: 30000
   selector:
-    app: jenkins
+    app: jenkins-deployment
 ---
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
