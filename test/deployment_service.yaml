@@ -34,7 +34,28 @@ spec:
       nodePort: 30000
   selector:
     app: jenkins-deployment
-
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-pv
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage
+  local:
+    path: /home/ubuntu/Desktop/jenkins
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - example-node
 ---
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
