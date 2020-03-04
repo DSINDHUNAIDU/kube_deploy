@@ -20,6 +20,12 @@ spec:
               value: -Djenkins.install.runSetupWizard=false
         ports:
         - containerPort: 8080
+        volumeMounts:
+          - name: jenkins-pv
+            mountPath: /var/jenkins_home
+      volumes:
+        - name: jenkins-pv
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
