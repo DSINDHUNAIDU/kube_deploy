@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: jenkins-deployment
-  replicas: 2 # tells deployment to run 2 pods matching the template
+  replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
@@ -116,7 +116,7 @@ spec:
   selector:
     matchLabels:
       app: sonarqube
-  replicas: 2 # tells deployment to run 2 pods matching the template
+  replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
