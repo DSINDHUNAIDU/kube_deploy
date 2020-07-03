@@ -1,0 +1,27 @@
+kubeadm reset -f && rm -rf /etc/kubernetes/ && rm -rf $HOME/.kube && rm -rf /etc/cni/net.d
+ipvsadm --clear
+apt-get update && apt-get install -y mc ebtables ethtool docker.io apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+apt-get update && apt-get install -y kubelet kubeadm kubectl
+kubectl version
+kubeadm init --pod-network-cidr=10.244.0.0/16
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+source <(kubectl completion bash)
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+kubectl create -f https://raw.githubusercontent.com/coreos/flannel/v0.12.0/Documentation/kube-flannel.yml
+kubectl get no -o wide
+kubectl get all --all-namespaces
+ls
+git clone https://github.com/intel/multus-cni.git
+cd multus-cni/
+cat ./images/multus-daemonset.yml | kubectl apply -f -
+kubectl get all --all-namespaces
+kubectl get pods -A
+kubectl taint nodes --all node-role.kubernetes.io/master:NoSchedule-
